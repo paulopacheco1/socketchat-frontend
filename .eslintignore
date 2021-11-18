@@ -1,0 +1,8 @@
+**/*.js
+/*.js
+node_modules
+build
+.next
+public
+/src/react-app-env.d.ts
+/src/reportWebVitals.ts

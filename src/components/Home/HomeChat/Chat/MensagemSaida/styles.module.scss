@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background-color: #cbeaf8;
+  max-width: 60%;
+  margin-bottom: 10px;
+  z-index: 1;
+  position: relative;
+
+  align-self: flex-end;
+
+  &::before {
+    content: "";
+    display: none;
+    position: absolute;
+    right: -10px;
+    top: 0;
+    width: 0;
+    height: 0;
+    border-top: 15px solid #cbeaf8;
+    border-right: 15px solid transparent;
+    z-index: -1;
+  }
+
+  & + & {
+    margin-bottom: 3px;
+  }
+
+  p {
+    word-break: break-word; 
+  }
+}

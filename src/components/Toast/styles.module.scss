@@ -1,0 +1,58 @@
+@use "sass:color";
+
+.container {
+  width: 360px;
+  position: relative;
+  padding: 16px 30px 16px 16px;
+  border-radius: 10px;
+
+  display: flex;
+  align-items: center;
+
+  opacity: 0.7;
+
+  > svg {
+    margin-right: 14px;
+  }
+
+  div {
+    flex: 1;
+
+    strong {
+      opacity: 0.9;
+    }
+
+    p {
+      margin-top: 4px;
+      font-size: 14px;
+      opacity: 0.9;
+      line-height: 20px;
+    }
+  }
+
+  button {
+    position: absolute;
+    right: 8px;
+    top: 6px;
+    opacity: 0.4;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    display: flex;
+  }
+}
+
+.info {
+  background-color: color.adjust(#17b7ce, $lightness: 30%);
+  color: color.adjust(#17b7ce, $lightness: -25%);
+}
+
+.success {
+  background-color: color.adjust(#59c287, $lightness: 30%);
+  color: color.adjust(#59c287, $lightness: -25%);
+}
+
+.error {
+  background-color: color.adjust(#e56060, $lightness: 30%);
+  color: color.adjust(#e56060, $lightness: -20%);
+}

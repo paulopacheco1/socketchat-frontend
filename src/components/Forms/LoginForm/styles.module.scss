@@ -1,0 +1,54 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.content {
+  width: 100%;
+  max-width: 400px;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  > h1 {
+    font: 300 2rem "Montserrat", sans-serif;
+    color: var(--gray-900);
+    margin: 20px 0 40px;
+    text-align: center;
+  }
+
+  > p {
+    font: 300 1rem "Montserrat", sans-serif;
+    color: var(--gray-900);
+    margin-bottom: 27px;
+    text-align: center;
+  }
+
+  .input + .input {
+    margin-top: 22px;
+  }
+
+  > button {
+    margin-top: 50px;
+    min-width: 140px;
+    height: 40px;
+  }
+
+  > span {
+    font: 400 1rem "Ubuntu", sans-serif;
+    color: var(--gray-600);
+    margin-top: 30px;
+    text-align: center;
+
+    a {
+      font: 500 1rem "Ubuntu", sans-serif;
+      text-decoration: underline;
+      color: var(--blue-400);
+    }
+  }
+}

@@ -1,0 +1,46 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding: 20px;
+  border-bottom: 1px solid var(--gray-400);
+
+  > h3 {
+    font: 500 1rem "Montserrat", sans-serif;
+    color: var(--gray-800);
+    margin-bottom: 5px;
+    
+    width: 100%;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  > p {
+    font: 300 0.85rem "Ubuntu", sans-serif;
+    color: var(--gray-600);
+    
+    width: 100%;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  background-color: var(--gray-300);
+
+  &:hover {
+    background-color: var(--gray-400);
+    background-color: #bddae2;
+  }
+
+  &.selected {
+    background-color: var(--gray-400);
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

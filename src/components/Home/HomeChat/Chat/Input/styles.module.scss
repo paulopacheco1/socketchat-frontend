@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  background-color: var(--gray-300);
+
+  padding: 10px 32px;
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+
+  > button {
+    margin-left: 26px;
+    background-color: transparent;
+  }
+}

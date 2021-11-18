@@ -1,0 +1,45 @@
+.container {
+  position: relative;
+
+  span {
+    min-width: 140px;
+    max-width: 340px;
+    width: max-content;
+    background-color: var(--primary);
+    box-shadow: 0 5px 14px 3px #00000018;
+    border-radius: 4px;
+    opacity: 0;
+    visibility: hidden;
+    transition: 300ms;
+    z-index: 100;
+
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border-style: solid;
+      border-color: var(--primary) transparent;
+      border-width: 6px 6px 0 6px;
+    }
+
+    font: 500 0.8rem "Montserrat", sans-serif;
+    color: var(--white);
+    text-align: center;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &:hover span {
+    opacity: 1;    
+    visibility: visible;
+  }
+}

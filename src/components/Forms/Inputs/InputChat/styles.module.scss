@@ -1,0 +1,28 @@
+.container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  border-radius: 50px;
+  background-color: var(--white);
+
+  input {
+    border: none;
+    width: 100%;
+    padding: 12px 26px;
+    background-color: transparent;
+    color: var(--gray-800);
+
+    &::placeholder {
+      color: var(--gray-700);
+    }
+  }
+
+  &.disabled {
+    background-color: transparent;
+
+    input {
+      background-color: transparent;
+      color: var(--gray-500);
+    }
+  }
+}

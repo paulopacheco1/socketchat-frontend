@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 30px;
+  min-height: 60px;
+  min-width: 100%;
+  background-color: var(--gray-200);
+  border-bottom: 1px solid var(--gray-400);
+
+  > h2 {
+    font: 400 1.4rem "Montserrat", sans-serif;
+    color: var(--primary);
+  }
+}
