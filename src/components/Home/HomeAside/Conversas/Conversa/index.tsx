@@ -61,7 +61,9 @@ export const Conversa: React.FC<Props> = ({ conversa }) => {
       </div>
       <div className={styles.aside}>
         {!!dataUltimaMensagem && <span>{dataUltimaMensagem}</span>}
-        <pre className={conversa.possuiNotificacao ? styles.notificacao : ''} />
+        <pre className={conversa.possuiNotificacao ? styles.notificacao : ''}>
+          <div />
+        </pre>
       </div>
     </button>
   );

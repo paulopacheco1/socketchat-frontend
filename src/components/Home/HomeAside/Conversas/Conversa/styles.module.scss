@@ -3,7 +3,9 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding: 20px;
+  padding: 10px 20px;
+  min-height: 70px;
+  height: 70px;
   border-bottom: 1px solid var(--gray-400);
   overflow: hidden;
 
@@ -59,6 +61,7 @@
     align-items: flex-end;
     justify-content: space-between;
     height: 100%;
+    position: relative;
 
     > span {
       font: 300 0.73rem "Ubuntu", sans-serif;
@@ -68,16 +71,28 @@
     }
 
     > pre {
-      width: 0;
-      height: 0;
+      width: 12px;
+      height: 12px;
       border-radius: 50%;
-      background-color: var(--blue-700);
-      box-shadow: unset;
-      transition: 150ms ease;
+      position: absolute;
+      bottom: 10px;
+      right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-      &.notificacao {
-        width: 12px;
-        height: 12px;
+      > div {
+        width: 0;
+        height: 0;
+        box-shadow: unset;
+        border-radius: 50%;
+        background-color: var(--blue-700);
+        transition: 150ms ease;
+      }
+
+      &.notificacao > div {
+        width: 10px;
+        height: 10px;
         box-shadow: 0 0 10px var(--blue-700);
       }
     }

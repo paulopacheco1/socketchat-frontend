@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Form } from '@unform/web';
 import { FormHandles, SubmitHandler } from '@unform/core';
 import { AiOutlineSend } from 'react-icons/ai';
@@ -17,7 +17,7 @@ export const Input: React.FC = () => {
 
   const formRef = useRef<FormHandles>(null);
 
-  const { enviarMensagem } = useChat();
+  const { enviarMensagem, conversaSelecionada } = useChat();
 
   const handleSubmit: SubmitHandler<MensagemFormData> = async data => {
     if (data.mensagem !== '') {
@@ -28,6 +28,11 @@ export const Input: React.FC = () => {
       formRef.current?.getFieldRef('mensagem').current.focus();
     }
   };
+
+  useEffect(() => {
+    if (conversaSelecionada?.id)
+      formRef.current?.getFieldRef('mensagem').current.focus();
+  }, [conversaSelecionada]);
 
   return (
     <div className={styles.container}>
