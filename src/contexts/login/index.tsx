@@ -37,7 +37,10 @@ export const LoginProvider: React.FC = ({ children }) => {
     setUsuario(sessao.usuario);
     setToken(sessao.token);
 
-    setCookie(null, 'socketchat.token', sessao.token, { path: '/' });
+    setCookie(null, 'socketchat.token', sessao.token, {
+      path: '/',
+      secure: true,
+    });
     api.auth(sessao.token);
     Router.push('/');
   }, []);
