@@ -31,7 +31,7 @@ export interface IConversa {
 
 interface IChatContext {
   conversas: IConversa[];
-  conversasBusca: IConversa[] | null;
+  conversasBusca?: IConversa[];
   conversasLoading: boolean;
 
   buscarConversa(busca: string): void;
@@ -64,9 +64,7 @@ interface wsResponse {
 export const ChatProvider: React.FC = ({ children }) => {
   const [conversas, setConversas] = useState<IConversa[]>([]);
   const [conversasLoading, setConversasLoading] = useState(false);
-  const [conversasBusca, setConversasBusca] = useState<IConversa[] | null>(
-    null,
-  );
+  const [conversasBusca, setConversasBusca] = useState<IConversa[]>();
 
   const [conversaSelecionada, setConversaSelecionada] = useState<IConversa>();
   const [conversaSelecionadaLoading, setConversaSelecionadaLoading] =
@@ -74,11 +72,20 @@ export const ChatProvider: React.FC = ({ children }) => {
 
   const { isSigned, token, usuario } = useLogin();
   const isBrowser = useMemo(() => typeof window !== 'undefined', []);
+
   const [ws, setWS] = useState<WebSocket>();
+  const [wsIsReady, setWsIsReady] = useState(false);
 
   useEffect(() => {
+    setWsIsReady(false);
+    setWS(undefined);
+
+    setConversas([]);
+    setConversasBusca(undefined);
     setConversasLoading(true);
-  }, []);
+    setConversaSelecionada(undefined);
+    setConversaSelecionadaLoading(false);
+  }, [isSigned]);
 
   useEffect(() => {
     if (isBrowser && isSigned) {
@@ -87,7 +94,11 @@ export const ChatProvider: React.FC = ({ children }) => {
   }, [isBrowser, isSigned]);
 
   useEffect(() => {
-    if (ws && !isSigned) ws.close();
+    if (ws && !isSigned) {
+      ws.close();
+      setWsIsReady(false);
+      setWS(undefined);
+    }
   }, [ws, isSigned]);
 
   useEffect(() => {
@@ -108,6 +119,7 @@ export const ChatProvider: React.FC = ({ children }) => {
   const handleAuth = useCallback((message: wsResponse) => {
     setConversas(message.data);
     setConversasLoading(false);
+    setWsIsReady(true);
   }, []);
 
   const handleBuscar = useCallback((message: wsResponse) => {
@@ -270,21 +282,21 @@ export const ChatProvider: React.FC = ({ children }) => {
 
   const buscarConversa = useCallback(
     (busca: string) => {
-      if (ws) {
+      if (ws && wsIsReady) {
         ws.send(JSON.stringify({ action: wsAction.BUSCAR, busca }));
         setConversasLoading(true);
       }
     },
-    [ws],
+    [wsIsReady, ws],
   );
 
   const buscarReset = useCallback(() => {
-    setConversasBusca(null);
+    setConversasBusca(undefined);
   }, []);
 
   const iniciarConversa = useCallback(
     (idParticipante: number, mensagem: string) => {
-      if (ws) {
+      if (ws && wsIsReady) {
         ws.send(
           JSON.stringify({
             action: wsAction.NOVA_CONVERSA,
@@ -294,7 +306,7 @@ export const ChatProvider: React.FC = ({ children }) => {
         );
       }
     },
-    [ws],
+    [wsIsReady, ws],
   );
 
   const selecionarConversa = useCallback(
@@ -311,7 +323,7 @@ export const ChatProvider: React.FC = ({ children }) => {
 
   const enviarMensagem = useCallback(
     (mensagem: string) => {
-      if (ws) {
+      if (ws && wsIsReady) {
         if (conversaSelecionada?.id) {
           ws.send(
             JSON.stringify({
@@ -333,12 +345,12 @@ export const ChatProvider: React.FC = ({ children }) => {
         }
       }
     },
-    [ws, conversaSelecionada],
+    [wsIsReady, ws, conversaSelecionada],
   );
 
   const getMensagens = useCallback(
     (idConversa: number, idMensagemMaisAntiga: number) => {
-      if (ws) {
+      if (ws && wsIsReady) {
         setConversaSelecionadaLoading(true);
         ws.send(
           JSON.stringify({
@@ -349,7 +361,7 @@ export const ChatProvider: React.FC = ({ children }) => {
         );
       }
     },
-    [ws],
+    [wsIsReady, ws],
   );
 
   return (

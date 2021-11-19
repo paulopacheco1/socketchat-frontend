@@ -40,7 +40,7 @@ export const LoginProvider: React.FC = ({ children }) => {
     setCookie(null, 'socketchat.token', sessao.token, {
       path: '/',
       secure: true,
-      sameSite: 'Strict',
+      SameSite: 'Strict',
     });
     api.auth(sessao.token);
     Router.push('/');

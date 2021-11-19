@@ -19,7 +19,7 @@ export const Conversas: React.FC = () => {
         </div>
       ) : (
         <>
-          {conversasBusca !== null ? (
+          {conversasBusca !== undefined ? (
             <>
               {conversasBusca.length > 0 ? (
                 <>
