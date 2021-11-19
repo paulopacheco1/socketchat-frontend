@@ -27,7 +27,7 @@ export const Toast: React.FC<IToast> = ({
   description,
   timeout = 5000,
 }) => {
-  const [timer, setTimer] = useState(null);
+  const [timer, setTimer] = useState<ReturnType<typeof setTimeout>>();
 
   const { removeToast } = useToast();
 

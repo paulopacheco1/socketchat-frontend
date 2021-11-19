@@ -6,13 +6,14 @@ import { useToast } from '../../contexts';
 import { IToast } from '../../components/Toast';
 
 export class ApiError extends Error {
-  public readonly statusCode: string;
+  public readonly statusCode: string | undefined;
 
   public toasts: Omit<IToast, 'id'>[] = [];
 
-  public readonly formErrors: { [key: string]: string };
+  public readonly formErrors: { [key: string]: string } | undefined;
 
   public readonly type:
+    | undefined
     | 'Validation Error'
     | 'Application Exception'
     | 'Internal Server Error'
@@ -33,12 +34,14 @@ export class ApiError extends Error {
     if (error?.response?.data?.Fields) {
       this.formErrors = {};
 
-      error.response.data.Fields.forEach(field => {
+      error.response.data.Fields.forEach((field: any) => {
         const fieldName = `${field.Field[0].toLowerCase()}${field.Field.substring(
           1,
         )}`;
 
-        [this.formErrors[fieldName]] = field.Errors;
+        if (this.formErrors) {
+          [this.formErrors[fieldName]] = field.Errors;
+        }
       });
     }
 
