@@ -17,5 +17,28 @@
   > button {
     margin-left: 26px;
     background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: 300ms ease;
+
+    svg {
+      transition: 300ms ease;
+      fill: var(--blue-400);
+      filter: drop-shadow(0 0 5px rgb(64, 163, 238));
+    }
+
+    &:disabled {
+      cursor: default;
+
+      svg {
+        fill: var(--gray-600);
+        filter: none;
+      }
+
+      &:hover {
+        opacity: 1;
+      }
+    }
   }
 }

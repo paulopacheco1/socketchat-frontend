@@ -17,7 +17,7 @@ export interface IParticipante {
 export interface IMensagem {
   id: number;
   conteudo: string;
-  dataEnvio: Date;
+  dataEnvio: string;
   idRemetente: number;
 }
 
@@ -26,6 +26,7 @@ export interface IConversa {
   nome: string;
   participantes: IParticipante[];
   mensagens: IMensagem[];
+  possuiNotificacao: boolean;
 }
 
 interface IChatContext {
@@ -89,45 +90,35 @@ export const ChatProvider: React.FC = ({ children }) => {
     if (ws && !isSigned) ws.close();
   }, [ws, isSigned]);
 
-  const getMensagens = useCallback(
-    (idConversa: number, idMensagemMaisAntiga: number) => {
-      if (ws) {
-        setConversaSelecionadaLoading(true);
-        ws.send(
-          JSON.stringify({
-            action: wsAction.GET_MENSAGENS,
-            idConversa,
-            idMensagemMaisAntiga,
-          }),
-        );
-      }
-    },
-    [ws],
-  );
+  useEffect(() => {
+    if (!!conversaSelecionada && conversaSelecionada.possuiNotificacao) {
+      const conversa = JSON.parse(
+        JSON.stringify(conversas.find(c => c.id === conversaSelecionada.id)),
+      );
 
-  const handleReceiveAuth = useCallback((message: wsResponse) => {
+      conversa.possuiNotificacao = false;
+      const indexConversa = conversas.findIndex(c => c.id === conversa.id);
+      const novasConversas = [...conversas];
+      novasConversas.splice(indexConversa, 1, conversa);
+
+      setConversas(novasConversas);
+    }
+  }, [conversas, conversaSelecionada]);
+
+  const handleAuth = useCallback((message: wsResponse) => {
     setConversas(message.data);
     setConversasLoading(false);
   }, []);
 
-  const handleReceiveBuscar = useCallback((message: wsResponse) => {
+  const handleBuscar = useCallback((message: wsResponse) => {
     setConversasLoading(false);
     setConversasBusca(message.data);
   }, []);
 
-  const handleReceiveNovaConversa = useCallback(
+  const handleNovaConversa = useCallback(
     (message: wsResponse) => {
       const novaConversa: IConversa = message.data;
-
-      if (
-        conversaSelecionada?.participantes.length ===
-          novaConversa.participantes.length &&
-        conversaSelecionada?.participantes.every(p1 =>
-          novaConversa.participantes.some(p2 => p1.id === p2.id),
-        )
-      ) {
-        setConversaSelecionada(novaConversa);
-      }
+      novaConversa.possuiNotificacao = true;
 
       if (conversasBusca) {
         const indexConversaBusca = conversasBusca?.findIndex(
@@ -146,6 +137,17 @@ export const ChatProvider: React.FC = ({ children }) => {
         }
       }
 
+      if (
+        conversaSelecionada?.participantes.length ===
+          novaConversa.participantes.length &&
+        conversaSelecionada?.participantes.every(p1 =>
+          novaConversa.participantes.some(p2 => p1.id === p2.id),
+        )
+      ) {
+        novaConversa.possuiNotificacao = false;
+        setConversaSelecionada(novaConversa);
+      }
+
       const novasConversas = [...conversas];
       novasConversas.unshift(novaConversa);
       setConversas(novasConversas);
@@ -153,10 +155,10 @@ export const ChatProvider: React.FC = ({ children }) => {
     [conversas, conversaSelecionada, conversasBusca],
   );
 
-  const handleReceiveNovaMensagem = useCallback(
+  const handleNovaMensagem = useCallback(
     (message: wsResponse) => {
       if (!conversas.find(c => c.id === message.data.id)) {
-        handleReceiveNovaConversa(message);
+        handleNovaConversa(message);
         return;
       }
 
@@ -164,6 +166,7 @@ export const ChatProvider: React.FC = ({ children }) => {
         JSON.stringify(conversas.find(c => c.id === message.data.id)),
       );
 
+      conversa.possuiNotificacao = true;
       conversa.mensagens.splice(0, 0, ...message.data.mensagens);
 
       const novasConversas = [...conversas].filter(
@@ -172,15 +175,17 @@ export const ChatProvider: React.FC = ({ children }) => {
 
       novasConversas.splice(0, 0, conversa);
 
-      if (conversaSelecionada?.id === message.data.id)
+      if (conversaSelecionada?.id === message.data.id) {
+        conversa.possuiNotificacao = false;
         setConversaSelecionada(conversa);
+      }
 
       setConversas(novasConversas);
     },
-    [conversas, conversaSelecionada, handleReceiveNovaConversa],
+    [conversas, conversaSelecionada, handleNovaConversa],
   );
 
-  const handleReceiveGetMensagens = useCallback(
+  const handleGetMensagens = useCallback(
     (message: wsResponse) => {
       const conversa = JSON.parse(
         JSON.stringify(conversas.find(c => c.id === message.data.idConversa)),
@@ -219,19 +224,19 @@ export const ChatProvider: React.FC = ({ children }) => {
 
           switch (message?.action) {
             case wsAction.AUTH:
-              handleReceiveAuth(message);
+              handleAuth(message);
               break;
 
             case wsAction.BUSCAR:
-              handleReceiveBuscar(message);
+              handleBuscar(message);
               break;
 
             case wsAction.NOVA_MENSAGEM:
-              handleReceiveNovaMensagem(message);
+              handleNovaMensagem(message);
               break;
 
             case wsAction.GET_MENSAGENS:
-              handleReceiveGetMensagens(message);
+              handleGetMensagens(message);
               break;
 
             default:
@@ -250,10 +255,10 @@ export const ChatProvider: React.FC = ({ children }) => {
   }, [
     ws,
     token,
-    handleReceiveAuth,
-    handleReceiveBuscar,
-    handleReceiveNovaMensagem,
-    handleReceiveGetMensagens,
+    handleAuth,
+    handleBuscar,
+    handleNovaMensagem,
+    handleGetMensagens,
   ]);
 
   const buscarConversa = useCallback(
@@ -322,6 +327,22 @@ export const ChatProvider: React.FC = ({ children }) => {
       }
     },
     [ws, conversaSelecionada],
+  );
+
+  const getMensagens = useCallback(
+    (idConversa: number, idMensagemMaisAntiga: number) => {
+      if (ws) {
+        setConversaSelecionadaLoading(true);
+        ws.send(
+          JSON.stringify({
+            action: wsAction.GET_MENSAGENS,
+            idConversa,
+            idMensagemMaisAntiga,
+          }),
+        );
+      }
+    },
+    [ws],
   );
 
   return (

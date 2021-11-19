@@ -22,14 +22,17 @@ export const Conversas: React.FC = () => {
           {conversasBusca !== null ? (
             <>
               {conversasBusca.length > 0 ? (
-                <div className={styles.conversas}>
-                  {conversasBusca.map(conversa => (
-                    <Conversa
-                      key={conversa.id || Math.random()}
-                      conversa={conversa}
-                    />
-                  ))}
-                </div>
+                <>
+                  <span className={styles.resultados}>Resultados:</span>
+                  <div className={styles.conversas}>
+                    {conversasBusca.map(conversa => (
+                      <Conversa
+                        key={conversa.id || Math.random()}
+                        conversa={conversa}
+                      />
+                    ))}
+                  </div>
+                </>
               ) : (
                 <AsideHero />
               )}

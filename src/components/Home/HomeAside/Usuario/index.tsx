@@ -1,4 +1,5 @@
 import React from 'react';
+import { FiLogOut } from 'react-icons/fi';
 
 import { useLogin } from '../../../../contexts';
 
@@ -11,8 +12,8 @@ export const Usuario: React.FC = () => {
     <div className={styles.container}>
       <h2>{usuario?.nome}</h2>
 
-      <button type="button" onClick={logout}>
-        Sair
+      <button type="button" onClick={logout} title="Sair">
+        <FiLogOut size={15} color="#fff" />
       </button>
     </div>
   );

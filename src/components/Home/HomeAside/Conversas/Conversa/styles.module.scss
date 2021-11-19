@@ -1,46 +1,95 @@
 .container {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
   padding: 20px;
   border-bottom: 1px solid var(--gray-400);
-
-  > h3 {
-    font: 500 1rem "Montserrat", sans-serif;
-    color: var(--gray-800);
-    margin-bottom: 5px;
-    
-    width: 100%;
-    text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-
-  > p {
-    font: 300 0.85rem "Ubuntu", sans-serif;
-    color: var(--gray-600);
-    
-    width: 100%;
-    text-align: left;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+  overflow: hidden;
 
   background-color: var(--gray-300);
+  transition: 150ms ease;
 
   &:hover {
-    background-color: var(--gray-400);
-    background-color: #bddae2;
+    background-color: #c6cfd8;
   }
 
   &.selected {
-    background-color: var(--gray-400);
+    background-color: var(--secondary);
 
     &:hover {
       opacity: 1;
     }
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+    max-width: 85%;
+
+    > h3 {
+      font: 500 1rem "Montserrat", sans-serif;
+      color: var(--gray-800);
+      margin-bottom: 5px;
+
+      width: 100%;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    > p {
+      font: 300 0.85rem "Ubuntu", sans-serif;
+      color: var(--gray-600);
+
+      width: 100%;
+      text-align: left;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+
+  .aside {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 100%;
+
+    > span {
+      font: 300 0.73rem "Ubuntu", sans-serif;
+      color: var(--gray-600);
+      width: 100%;
+      text-align: right;
+    }
+
+    > pre {
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background-color: var(--blue-700);
+      box-shadow: unset;
+      transition: 150ms ease;
+
+      &.notificacao {
+        width: 12px;
+        height: 12px;
+        box-shadow: 0 0 10px var(--blue-700);
+      }
+    }
+  }
+}
+
+.novaConversa {
+  .content > p {
+    color: var(--blue-800);
+    text-align: left;
+    font-style: italic;
+    padding-right: 5px;
+    font: italic 300 0.9rem "Ubuntu", sans-serif;
   }
 }

@@ -3,6 +3,7 @@ import React from 'react';
 import { useChat } from '../../../contexts';
 
 import { Chat } from './Chat';
+import { Input } from './Chat/Input';
 import { Header } from './Header';
 import { ChatHero } from './Hero';
 
@@ -18,6 +19,7 @@ export const HomeChat: React.FC = () => {
           <>
             <Header />
             <Chat />
+            <Input />
           </>
         ) : (
           <ChatHero />

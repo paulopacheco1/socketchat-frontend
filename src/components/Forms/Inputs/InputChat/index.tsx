@@ -50,6 +50,7 @@ export const InputChat: React.FC<InputAllProps> = ({
         ref={inputRef}
         defaultValue={defaultValue}
         disabled={disabled}
+        autoComplete="off"
         {...rest}
       />
     </div>

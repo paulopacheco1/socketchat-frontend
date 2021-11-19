@@ -1,6 +1,6 @@
 .container {
   display: flex;
-  padding: 8px 12px;
+  padding: 4px 8px;
   border-radius: 6px;
   background-color: var(--gray-200);
   max-width: 60%;
@@ -27,7 +27,19 @@
     margin-bottom: 3px;
   }
 
-  p {
-    word-break: break-word; 
+  > p {
+    word-break: break-word;
+    padding: 4px;
+  }
+
+  > span {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    font: 300 0.7rem "Ubuntu", sans-serif;
+    color: var(--gray-600);
+    text-align: right;
+    margin-left: 20px;
   }
 }

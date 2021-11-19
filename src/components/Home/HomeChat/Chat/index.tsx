@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useLayoutEffect, useRef } from 'react';
+import { SiSocketdotio } from 'react-icons/si';
 
 import { useLogin, useChat } from '../../../../contexts';
 
 import { MensagemEntrada } from './MensagemEntrada';
 import { MensagemSaida } from './MensagemSaida';
-import { Input } from './Input';
 import { LoadingSpinner } from '../../../LoadingSpinner';
 
 import styles from './styles.module.scss';
@@ -49,6 +49,9 @@ export const Chat: React.FC = () => {
 
   return (
     <div className={styles.container}>
+      <div className={styles.bg}>
+        <SiSocketdotio size={200} color="#2c7da0" />
+      </div>
       <div
         className={`${styles.loading} ${
           conversaSelecionadaLoading ? styles.isActive : ''
@@ -58,8 +61,7 @@ export const Chat: React.FC = () => {
       </div>
 
       <div className={styles.mensagens} onScroll={handleScroll}>
-        <div className={styles.ghost} tabIndex={0} ref={focusRef} /> { /* eslint-disable-line */}
-
+        <div className={styles.ghost} tabIndex={0} ref={focusRef} /> {/* eslint-disable-line */}
         {conversaSelecionada?.mensagens.map((mensagem, index) => {
           const next = conversaSelecionada.mensagens[index + 1];
 
@@ -88,8 +90,6 @@ export const Chat: React.FC = () => {
           );
         })}
       </div>
-
-      <Input />
     </div>
   );
 };

@@ -35,7 +35,7 @@
   --pink-500: #ffbfec;
 
   --primary: var(--gray-600);
-  --secondary: var(--blue-500);
+  --secondary: rgb(170, 196, 208);
   --danger: var(--red-500);
   --warning: var(--yellow-500);
 }
@@ -105,7 +105,7 @@ a {
 
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--blue-300) transparent;
+  scrollbar-color: var(--secondary) transparent;
 }
 
 *::-webkit-scrollbar {
@@ -117,7 +117,7 @@ a {
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: var(--blue-300);
+  background-color: var(--secondary);
   border-radius: 20px;
   border: 3px solid transparent;
 }

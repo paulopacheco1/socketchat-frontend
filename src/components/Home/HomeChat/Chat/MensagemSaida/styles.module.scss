@@ -1,8 +1,8 @@
 .container {
   display: flex;
-  padding: 8px 12px;
+  padding: 4px 8px;
   border-radius: 6px;
-  background-color: #cbeaf8;
+  background-color: var(--secondary);
   max-width: 60%;
   margin-bottom: 10px;
   z-index: 1;
@@ -18,7 +18,7 @@
     top: 0;
     width: 0;
     height: 0;
-    border-top: 15px solid #cbeaf8;
+    border-top: 15px solid var(--secondary);
     border-right: 15px solid transparent;
     z-index: -1;
   }
@@ -27,7 +27,19 @@
     margin-bottom: 3px;
   }
 
-  p {
-    word-break: break-word; 
+  > p {
+    word-break: break-word;
+    padding: 4px;
+  }
+
+  > span {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    font: 300 0.7rem "Ubuntu", sans-serif;
+    color: var(--gray-600);
+    text-align: right;
+    margin-left: 20px;
   }
 }

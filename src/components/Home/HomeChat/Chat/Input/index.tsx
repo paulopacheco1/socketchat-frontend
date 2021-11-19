@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Form } from '@unform/web';
 import { FormHandles, SubmitHandler } from '@unform/core';
 import { AiOutlineSend } from 'react-icons/ai';
@@ -13,6 +13,8 @@ interface MensagemFormData {
 }
 
 export const Input: React.FC = () => {
+  const [hasText, setHasText] = useState(false);
+
   const formRef = useRef<FormHandles>(null);
 
   const { enviarMensagem } = useChat();
@@ -21,6 +23,7 @@ export const Input: React.FC = () => {
     if (data.mensagem !== '') {
       enviarMensagem(data.mensagem);
       formRef.current?.reset();
+      setHasText(false);
     } else {
       formRef.current?.getFieldRef('mensagem').current.focus();
     }
@@ -33,9 +36,12 @@ export const Input: React.FC = () => {
           name="mensagem"
           placeholder="Digite uma mensagem"
           className={styles.input}
+          onChange={e =>
+            e.target.value ? setHasText(true) : setHasText(false)
+          }
         />
 
-        <button type="submit" className={styles.sendButton}>
+        <button type="submit" className={styles.sendButton} disabled={!hasText}>
           <AiOutlineSend size={30} color="#343a40" />
         </button>
       </Form>
