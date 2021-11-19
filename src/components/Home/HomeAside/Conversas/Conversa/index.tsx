@@ -42,7 +42,11 @@ export const Conversa: React.FC<Props> = ({ conversa }) => {
       type="button"
       className={`
         ${styles.container}
-        ${conversaSelecionada?.id === conversa.id ? styles.selected : ''}
+        ${
+          conversa.id && conversaSelecionada?.id === conversa.id
+            ? styles.selected
+            : ''
+        }
         ${conversa?.mensagens?.length === 0 ? styles.novaConversa : ''}
       `}
       onClick={handleClick}

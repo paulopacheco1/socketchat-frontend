@@ -72,7 +72,7 @@ export const ChatProvider: React.FC = ({ children }) => {
   const [conversaSelecionadaLoading, setConversaSelecionadaLoading] =
     useState(false);
 
-  const { isSigned, token } = useLogin();
+  const { isSigned, token, usuario } = useLogin();
   const isBrowser = useMemo(() => typeof window !== 'undefined', []);
   const [ws, setWS] = useState<WebSocket>();
 
@@ -120,6 +120,13 @@ export const ChatProvider: React.FC = ({ children }) => {
       const novaConversa: IConversa = message.data;
       novaConversa.possuiNotificacao = true;
 
+      novaConversa.nome =
+        message.data.nome ||
+        message.data.participantes
+          .filter((p: IParticipante) => p.id !== usuario?.id)
+          .map((p: IParticipante) => p.nome)
+          .join(', ');
+
       if (conversasBusca) {
         const indexConversaBusca = conversasBusca?.findIndex(
           c =>
@@ -129,7 +136,7 @@ export const ChatProvider: React.FC = ({ children }) => {
             ),
         );
 
-        if (indexConversaBusca) {
+        if (indexConversaBusca >= 0) {
           const novasConversasBusca = [...conversasBusca];
           novasConversasBusca.splice(indexConversaBusca, 1);
           novasConversasBusca.unshift(novaConversa);
@@ -152,7 +159,7 @@ export const ChatProvider: React.FC = ({ children }) => {
       novasConversas.unshift(novaConversa);
       setConversas(novasConversas);
     },
-    [conversas, conversaSelecionada, conversasBusca],
+    [conversas, conversaSelecionada, conversasBusca, usuario],
   );
 
   const handleNovaMensagem = useCallback(
@@ -167,13 +174,13 @@ export const ChatProvider: React.FC = ({ children }) => {
       );
 
       conversa.possuiNotificacao = true;
-      conversa.mensagens.splice(0, 0, ...message.data.mensagens);
+      conversa.mensagens = message.data.mensagens.concat(conversa.mensagens);
 
       const novasConversas = [...conversas].filter(
         c => c.id !== message.data.id,
       );
 
-      novasConversas.splice(0, 0, conversa);
+      novasConversas.unshift(conversa);
 
       if (conversaSelecionada?.id === message.data.id) {
         conversa.possuiNotificacao = false;
